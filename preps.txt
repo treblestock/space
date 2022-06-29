@@ -1,0 +1,35 @@
+*Requirements:
+  .- Adaptive 320px-1440px
+  .- IE 11+
+  .- filters sticky header
+
+*Tools: 
+  .- HTML5
+  .- SASS
+  .- business logic: 
+    API: js + fetch + domUpd
+    Filters: byAuthor + byDate
+  .- dom logic:       js + domUpd
+  .- UI logic:        slider + mochLinking
+  
+
+  .- UI:
+    .- svg:           socials + icons + logo
+    .- slider
+    .- Base-elemnts:  
+      fonts
+      links
+      btns:           ._white + ._btned._pale-blue
+      custom form:    select + input
+    .- cards
+
+
+========================================================
+* Srctions
+.- header
+.- intro
+.- filters
+.- cards
+.- footer
+
+========================================================

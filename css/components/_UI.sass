@@ -1,0 +1,44 @@
+// FONT
+@mixin basicFont()
+  // font-family: $font-arial
+  // font-size: 2.0rem
+  font-weight: 400
+  line-height: 1.5
+  // color: $color-black
+body
+  @include basicFont
+
+
+.title_main
+  // font-family: $font-arial
+  font-size: 6.5rem
+  line-height: 1.15
+  font-weight: 700
+  // color: $color-black
+.title_section
+  // font-family: $font-arial
+  font-size: 5.0rem
+  line-height: 1.5
+  font-weight: 700
+  // color: $color-black
+
+
+// BTNS
+
+.btn
+  padding: 2.0rem 5.0rem
+  border-radius: .4rem
+
+  &:hover
+    // background: $color-white
+
+  &:active
+    // background: $color-white
+
+.btn[class*='_sm']
+  padding: 12.5rem 5.0rem
+
+a.link
+  // color: $color-black
+  &:hover
+    // color: $color-black

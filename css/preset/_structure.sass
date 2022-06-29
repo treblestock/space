@@ -1,0 +1,79 @@
+@use "sass:list"
+
+@import ./_vars
+@import ./_helpers
+
+
+.container
+  max-width: $container-width + 2 * $container-side-padding
+  padding: 0 $container-side-padding
+  margin: 0 auto
+//! Approach
+
+//* 1) customScale(fz) === scale() with right block-model
+// When you use rem, styling everything in css (fz, width, padding, margin), 
+// everything will be proportional. So you may use just "fz: calc(fz * 0.9)"
+// and have the same as scale(.9), but there is no bugs with render stream.
+//* 2) customScale(--scale)
+// /--scale: 1 
+// fz: rem * var(--scale)
+// .some-item:hover
+//   /--scale: 1.1
+// You inject --scale to your calc-system, but it doesn't affect by default,
+// only redefinig --scale you launch this effect
+
+
+
+
+// ======================================================
+// leng_smooth
+$vp-min: 320px
+$vp-max: 1270px
+$fz-min: calc(10px * 11/16)
+$fz-max: 10px
+
+
+
+html,
+body
+  font-size: leng_smooth($fz-min, $fz-max)
+
+body > *
+  font-size: 1.6rem
+// ======================================================
+// margin section smooth
+// 1) padding: leng_smooth(2rem, 18rem) 
+//      based on: vw + rem (dynamic)
+//    *non-proportional (small % on mobile and big % on desktop )
+// 2) +padding((18rem 0 12rem))
+//      based on: $container_rem + $value_rem => % (static) 
+// /              + sugar of autotransform []rem => []%container_perc
+//    *always proportional to container width
+
+// ?3)
+// @function p($value)
+//   @return clamp(2rem, $value * var(--margin-scale), $value)
+// html
+// /  --margin-scale: .2
+// ?===================================
+
+
+
+
+.section
+
+
+// Items
+.grid
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(var(--w-min), 1fr) )
+  justify-content: center
+  grid-gap: 3rem
+  > *
+    width: 100% !important  // (?)
+    // (?) because every item of the grid-template should exactly fit its cell, 
+    // and the size of the item should be defined only by grid-template
+    // there is no sense for the item to have its own width, max-width,
+    // because you may define its width with --w-min and there shouldn't be any
+    // case when you should define inner width of the item: 
+    // either default width or grid-defined width (col-width)

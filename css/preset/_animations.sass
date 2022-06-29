@@ -1,0 +1,13 @@
+@mixin hoverDark
+  position: relative
+  &:after
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
+
+    background: #000
+    opacity: 0.2
+    pointer-events: none

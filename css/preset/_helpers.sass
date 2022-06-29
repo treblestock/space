@@ -1,0 +1,103 @@
+@use 'sass:list'
+
+@function em($px, $fz: 10px)
+  @return #{$px / $fz}em
+
+@function rem($px, $fz: 10px)
+  @return ($px / $fz) * 1rem
+
+@function perc($value1, $value2)
+  @return ($value1 / $value2) * 100%
+
+@function num($value)
+  @if unit($value) == '%'
+    @return $value / 100%
+  @return $value / ($value * 0 + 1)
+
+
+
+// Unfortunately sass doesn't invoke function when "--some-var: fomeFunc()"
+// mixin does
+=var($varName, $value)
+  #{$varName}: $value
+
+
+//* leng_smooth
+@function leng_smooth($leng-min, $leng-max, $vp-min: $vp-min, $vp-max: $vp-max)
+  @if unitless($leng-min) // relative scale case
+    $leng-min: $leng-min * $leng-max
+
+  $leng-delta: calc($leng-max - $leng-min)
+  $vp-delta: calc($vp-max - $vp-min)
+  $vp-dynamic: calc(100vw - $vp-min)
+
+  @if unit($leng-delta) == "rem" // 
+    $vp-delta: rem($vp-delta)
+  @if unit($leng-delta) == "em"
+    $vp-delta: em($vp-delta)
+  // @if unit($leng-delta) == "%" //? css type casting doesn't allow to perform such an idea
+  //   $vp-min: perc($vp-min, $vp-max)
+  //   $vp-max: num($vp-max)
+  //   $vp-delta: 100%
+  //   $vp-dynamic: calc(100vw / $vp-max)
+
+  $leng-dynamic: calc($leng-min + ($leng-delta / $vp-delta) * $vp-dynamic )
+  $res: clamp($leng-min, $leng-dynamic, $leng-max)
+  @return $res
+
+
+// remToPerc
+@function remsToPerc($rems, $base: $container-inner-width)
+  $modified: ()
+  @each $rem in $rems
+    $modified: list.append($modified, remToPerc($rem, $base) )
+  @return $modified
+
+@function remToPerc($rem, $base: $container-inner-width)
+  @if unitless($rem)
+    $rem: $rem * 1rem
+  @return min($rem / $base * 100%, $rem)
+  
+
+// smooth
+@function remsToSmoothRems($rems, $rems-min: .11)
+  $max-min-rems: () 
+  @if length($rems-min) == 1 // single arg use case
+    @each $rem in $rems
+      $max-min-rems: list.append($max-min-rems, ($rem, $rems-min) )
+  @else // exact values use case
+    @for $i from 1 through length($rems)
+      $max-min-rems: list.append($max-min-rems, (nth($rems, $i), nth($rems-min, $i) ) )
+
+
+  $modified: ()
+  @each $pair in $max-min-rems
+    $rem: nth($pair, 1)
+    $rem-min: nth($pair, 2)
+    @if $rem == 0 
+      $modified: list.append($modified, 0)
+    @else 
+      $modified: list.append($modified, leng_smooth($rem-min, $rem) )
+  @return $modified
+
+
+
+// TODO: passing "+m-sec_rem((18rem 0 12rem), 2rem)" both 18 and 12 will be transited to 2rem. Should save proportion, for that required leng_smooth([]$values, []$min-values)
+// TODO: provide support of "+m-sec_rem((18rem 0 12rem), .1 / 2rem)" which will 
+
+// section
+=p-sec_perc($rems)
+  padding: remsToPerc($rems)
+
+=p-sec_rem($rems, $rem-min: .11)
+  padding: remsToSmoothRems($rems, $rem-min)
+
+=m-sec_perc($rems)
+  margin: remsToPerc($rems)
+
+=m-sec_rem($rems, $rem-min: .11)
+  margin: remsToSmoothRems($rems, $rem-min)
+
+=gap($rem, $rem-min: .11)
+  gap: leng_smooth($rem-min, $rem)
+

@@ -1,0 +1,231 @@
+$element-default-color: #2aaf2a
+$element-hover-color: #0f6fc9
+$element-active-color: #aa0e28
+
+=hover_decor()
+  &:hover
+    *,
+    &:before,
+    &:after
+      background: $element-hover-color
+  
+ 
+
+
+
+.cross
+  width: 40px
+  height: 40px
+  cursor: pointer
+  transition: all ease .3s
+  transform: rotate(45deg) 
+  position: relative
+  
+  &:after,
+  &:before
+    content: ''
+    display: block
+    position: absolute
+    top: 50%
+
+    height: 4%
+    width: 100%
+    background: $element-default-color
+
+  &:after
+    transform: rotate(90deg)
+
+
+  &:hover
+    transform: rotate(0) 
+
+  +hover_decor()
+
+
+
+.dot
+  width: 10px
+  height: 10px
+  border-radius: 50%
+  background: $element-default-color
+  &:hover
+    background: $element-hover-color
+
+
+
+
+
+
+
+.plus
+  width: 40px
+  height: 40px
+  cursor: pointer
+  transition: all ease .3s
+  position: relative
+
+  &:after,
+  &:before
+    content: ''
+    display: block
+    position: absolute
+    top: 50%
+
+    height: 4%
+    width: 100%
+    background: $element-default-color
+
+  &:after
+    transform: rotate(90deg)
+
+
+  &:hover
+    transform: rotate(45deg)
+
+  +hover_decor()
+
+
+
+
+
+
+
+.tick
+  width: 40px
+  height: 40px
+  cursor: pointer
+  position: relative
+
+  &:after,
+  &:before
+    content: ''
+    display: block
+    position: absolute
+    
+    width: 70%
+    height: 5%
+    top: 50%
+    left: 40%
+    background: $element-default-color
+
+  &:after
+    transition: all ease .3s
+    transform: rotate(-45deg)
+
+  &:before
+    transition: all ease .3s
+    transform: translateX(-70%) rotate(45deg)
+
+
+  &:hover
+    &:after
+      transform: rotate(45deg)
+  
+    &:before
+      transform: translateX(-70%) rotate(-45deg)
+  
+
+  +hover_decor()
+
+
+
+
+
+
+
+
+
+
+.burger
+  display: block
+  width: 40px
+  height: 40px
+  position: relative
+  transition: all ease .3s
+
+  +hover_decor()
+
+  &:before,
+  &:after,
+  span
+    content: ''
+    display: block
+    position: absolute
+    width: 100%
+    height: 8%
+    transition: all ease .3s
+    
+    background: $element-default-color
+
+  
+  &:before
+    top: 0
+
+  span
+    top: 50%
+
+  &:after
+    top: 100%
+
+
+  &.active
+    &:before,
+    &:aftertop: 50
+    
+    &:before
+      transform: rotate(45deg)
+  
+    &:after
+      transform: rotate(-45deg)
+  
+    span
+      transform: scale(0)
+  
+
+
+
+
+
+
+
+//* pseudoDecor
+=beforeLineHorizontal($color: #000, $size: 100%)
+  display: flex
+  flex-direction: row
+  
+  &:before
+    margin-right: 10px
+    align-self: center
+
+    content: ''
+    height: $size
+    width: 1px
+    display: block
+
+    background: $color
+
+= beforeLineVertiacal($color: #000, $size: 100%)
+  display: flex
+  flex-direction: column
+
+  &:before
+    margin-bottom: 10px
+    align-self: center
+
+    content: ''
+    width: $size
+    height: 1px
+    display: block
+
+    background: $color
+
+=beforeLineVertiacalBlock($color: #000, $size: 100%)
+  &:before
+    margin: 0 auto 10px
+
+    content: ''
+    width: $size
+    height: 1px
+    display: block
+
+    background: $color
