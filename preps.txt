@@ -1,3 +1,42 @@
+// PREPS:
+// figma
++ parse entities
++ get vars (colors, fonts, sizes)
+- make images fs
+- download icons and images
+
+// sass
+- fz($rem-min, $rem-max)
+
+// UI
+- text
+- links
+- logo
+- btns
+- custom form elements (select, input)
+
+
+// js
++ Model
++ Model-API
++ View
++ updateView
++ Model-View connection 
+- filters
+- ParseViewFilterQueries
+
+- Test filter logic
+// 
+
+! TEST:
+// Semantics
+- hdr, ftr, main, section, article, 
+// Validation
+- check it https://involta.ru/tools/validator-html/
+// Cross browser
+- install IE, firefox, safari
+- check install IE, firefox, safari
+
 *Requirements:
   .- Adaptive 320px-1440px
   .- IE 11+
@@ -31,5 +70,32 @@
 .- filters
 .- cards
 .- footer
+
+========================================================
+* UI
+TITLES:
+  intro
+
+LOGO
+  logo
+  logo__white
+
+LINK
+  link
+  link__whtie
+  
+BTNS:
+  btn-white
+  btn-blue
+
+Article-card
+  time
+  title
+  text
+  author-label
+
+INTRO-SLIDER  
+========================================================
+
 
 ========================================================
