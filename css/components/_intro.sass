@@ -43,15 +43,17 @@
   color: $color-white
 
   
+  &__viewport
+    overflow: hidden
+
   &__content
     height: 100%
     max-width: 60rem
-    overflow: hidden
 
     display: flex
     > *
       flex: 0 0 100%
-
+    transition: all ease .3s
   &__pages
     display: flex
     flex-direction: row

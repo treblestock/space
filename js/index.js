@@ -14,6 +14,12 @@ const MONTHS = [
   'Декабрь',
 ]
 
+function jsDateFromInput(dateStr) {
+  const dateArgs = dateStr.split('-')
+  dateArgs[1]--
+  return new Date(...dateArgs)
+}
+
 function parseDateFormated(dateStr) {
   const dateJS = new Date(dateStr)
 
@@ -54,8 +60,8 @@ function useHeaderHeight() {
 // ======================================================
 const sliders = document.querySelectorAll('.slider')
 const sliderItemsContainerClassName = 'slider__content'
-const sliderBtnClassName = 'slider-btn'
-const sliderPageClassName = 'slider-page'
+const sliderBtnClassName = 'slider__btn'
+const sliderPageClassName = 'slider__page'
 
 for (const slider of sliders) {  
   let activeIndex = 0
@@ -90,11 +96,7 @@ function getNewActiveIndex(target, activeIndex, itemsCount) {
       ? itemsCount - 1
       : activeIndex - 1
   }
-  return [...target.parentElement.children].indexOf(target) 
-    // a weak place: if there is a wrapper for paggination-item 
-    // (for example we use pictures as pagination-items)
-    // we will always have 0, so we should find paggination-container exactly
-
+  return [...target.parentElement.children].indexOf(target)
 }
 
 // ======================================================
@@ -109,42 +111,85 @@ async function fetchArticles(url) {
 
 const model = {
   articles: [],
-
-  filterQueryAuthor: null,
-  filterQueryDateFrom: null,
-  filterQueryDateTo: null,
-
-  setData(prop, value) {
-
-    this[prop] = value
-    updateDomArticles() 
+  get articlesFiltered() {
+    return this.articles.filter(isPassedFilters)
   },
-  // !TEST (works)
-  // _add() {
-  //   this.articles.push(this.articles[0])
-  //   updateDomArticles()
-  // },
-  // _remove() {
-  //   this.articles = this.articles.slice(17)
-  //   updateDomArticles()
-  //   setTimeout( () => this._add(), 1000)
-  // },
+
+  get authorsList() {
+    const authors = [...this.articles.reduce((authors, article) => authors.add(article.author), new Set())]
+    return authors.filter(author => author) // defined only
+  },
+
+  filterQueries: {
+    author: null,
+    dateTo: null,
+    dateFrom: null,
+  },
+  setData(prop, value) {
+    this[prop] = value
+    updateDomArticles()
+    updateDomFilterAuthor()
+  },
+  
+}
+
+// dom authorFilter
+const formElems = document.querySelector('.form').elements
+const authorSelect = formElems.author
+const dateFromInput = formElems.dateFrom
+const dateToInput = formElems.dateTo
+
+for (const formElem of formElems) {
+  formElem.addEventListener('change', onFilterChange)
+}
+
+function onFilterChange(event) {
+  const target = event.target
+  const value = target.name.includes('date')
+    ? jsDateFromInput(target.value) : target.options[target.selectedIndex].value
+
+  model.filterQueries[target.name] = value 
+  updateDomFilterAuthor()
+  updateDomArticles()
 }
 
 
+
+function isPassedFilters(article) {
+  const articleDate = new Date(article.publishedAt)
+  if (model.filterQueries.author && article.author !== model.filterQueries.author) return false
+  if (model.filterQueries.dateFrom && articleDate < model.filterQueries.dateFrom) return false
+  if (model.filterQueries.dateTo && articleDate > model.filterQueries.dateTo) return false
+  return true
+}
+
+
+function updateDomFilterAuthor() {
+  const optionElems = model.authorsList.map((author) => createOptionElement(author) )
+  if (!optionElems) throw new Error('There are no new Articles!')
+  optionElems.forEach((authorElem) => authorSelect.append(authorElem) )
+}
+
+function createOptionElement(author) {
+  const optionElem = document.createElement('option')
+  optionElem.className = 'articles-filters__author-filter-option'
+  optionElem.innerHTML = author
+  optionElem.value = author
+  return optionElem
+}
+
+
+
+// dom articles
 function updateDomArticles() {
   const articlesContainer = document.querySelector('.articles__cards')
-  const articlesUpdated = getArticles(model.articles)
+  const articlesUpdated = model.articlesFiltered.map((articleData) => getArticleElem(articleData) )
   if (!articlesUpdated) throw new Error('There are no new Articles!')
   articlesContainer.innerHTML = ''
   articlesUpdated.forEach((articleCard) => articlesContainer.append(articleCard) )
 }
 
-function getArticles(articles) {
-  return articles.map((articleData) => getArticle(articleData) )
-}
-
-function getArticle(articleData) {
+function getArticleElem(articleData) {
   let {
     title,
     content: body,
@@ -155,10 +200,10 @@ function getArticle(articleData) {
   body = getShortBody(body)
   date = parseDateFormated(date)
 
-  return createArticle(title, body, author, date)
+  return createArticleElem(title, body, author, date)
 }
 
-function createArticle(title, body, author, date) {
+function createArticleElem(title, body, author, date) {
   const articleCard = document.createElement('div')
   articleCard.classList.add('article-card')
 
