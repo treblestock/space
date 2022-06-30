@@ -1,12 +1,14 @@
 // FONT
 @mixin basicFont()
-  font-size: 1.6rem
+  font-size: leng_smooth(1.4rem, 1.6rem)
   line-height: 1.5
   font-family: $ff
   font-weight: 400
+  color: $color-gray
 
 body > *
-  font-family: $ff
+  +basicFont
+
 
 header.header > *,
 footer.footer > *
@@ -15,23 +17,86 @@ footer.footer > *
 
 // BTNS
 
-.btn-white
-  padding: 2.0rem 5.0rem
-  border-radius: .4rem
-
-  &:hover
-    // background: $color-white
-
-  &:active
-    // background: $color-white
 
 
 .btn-blue
 
 
 
-
-a.link
-  // color: $color-black
+.link
   &:hover
-    // color: $color-black
+    color: $color-blue
+    > *
+      color: $color-blue
+
+
+.btn-white
+  display: inline-block
+  padding: leng_smooth(1.3rem, 1.6rem) leng_smooth(2.4rem, 3.6rem)
+  border-radius: $border-radius
+
+
+  font-size: leng_smooth(1.4rem, 1.6rem)
+  line-height: 20px
+  background: $color-white
+  color: $color-blue
+  font-weight: 600
+
+  transition: all ease .3s
+  &:hover,
+  &:focus-visible
+    background: $color-blue
+    color: $color-white
+
+  &:active
+    // background: $color-white
+
+
+.btn-blue
+  display: inline-block
+  padding: .8rem 2rem
+  border-radius: $border-radius
+  background: $color-blue-light
+
+  font-size: 1.2rem
+  line-height: 1.5
+  color: $color-blue
+  font-weight: 600
+
+  transition: all ease .3s
+  &:hover,
+  &:focus-visible
+    background: $color-blue
+    color: $color-white
+
+
+// icons
+.social-icon
+  width: 2rem
+  height: 2rem
+  fill: $color-white
+  &:hover
+    fill: $color-blue
+
+// TODO: fix colors through vars problem
+.logo
+  width: 12rem
+  height: 3rem
+
+  --color-word: $color-black
+  --color-circles: $color-blue
+  
+
+
+  &__word
+    fill: $color-black
+
+  &__circles
+    fill: $color-blue
+
+
+  &:hover
+    --color-word: $color-blue
+    --color-circles: $color-blue
+
+

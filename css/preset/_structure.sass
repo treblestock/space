@@ -5,14 +5,13 @@
 
 // ======================================================
 // leng_smooth
-$vp-min: $media-size-xs
+$vp-min: $md-xs
 $vp-max: $container-width
 
 
 html,
 body
   font-size: 10px
-  // font-size: leng_smooth($fz-min, $fz-max)
 
 body > *
   font-size: 1.6rem
@@ -34,12 +33,25 @@ body > *
 // ?===================================
 
 
+.page__wrapper
+  width: 100%
+  min-height: 100vh
+  display: flex
+  flex-direction: column
+  
+  .main
+    flex: 1 1 auto
+
 .container
-  max-width: $container-width + 2 * $container-side-padding
+  max-width: $container-width-inner + 2 * $container-side-padding
   padding: 0 $container-side-padding
   margin: 0 auto
 
 .section
+
+
+._fullscreen
+  height: calc(100vh - var(--header-height))
 
 
 // Items

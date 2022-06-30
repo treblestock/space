@@ -1,0 +1,49 @@
+.articles
+  &__section
+    padding: leng_smooth(3.2rem, 4rem) 0 leng_smooth(5.6rem, 8rem)
+
+    background: $color-gray-light
+    
+  &__container
+
+.articles
+
+  &__cards
+    grid-gap: 2rem
+    +var(--w-min, leng_smooth(26rem, 38rem) )
+
+
+.article-card
+  padding: leng_smooth(2rem, 2.4rem)
+
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  align-items: start
+  
+  > * + *
+    margin-top: 1.6rem
+  
+  border-radius: $border-radius-card
+  background: $color-white
+
+  &__date
+    font-size: 1.2rem
+    font-weight: 600
+    color: $color-aqua
+    
+
+  &__title
+    font-size: leng_smooth(1.8rem, 2rem)
+    font-weight: 600
+    color: $color-gray-dark
+
+  &__body
+    flex: 1 1 auto
+
+  &__author
+    margin-top: leng_smooth(2rem, 2.4rem)
+
+
+.btn-blue
+

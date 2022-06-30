@@ -35,6 +35,70 @@ function getShortBody(bodyText) {
 
 // ======================================================
 
+function useHeaderHeight() {
+  const resizeObserver = new ResizeObserver((entries) => {
+    const target = entries[0].target
+    const headerHeight = getComputedStyle(target).height
+    document.documentElement.style.setProperty('--header-height', headerHeight)
+  })
+  
+  function setHeaderHeightVar() {
+    const header = document.querySelector('.header__section')
+    const headerHeight = getComputedStyle(header).height
+    document.documentElement.style.setProperty('--header-height', headerHeight)
+    resizeObserver.observe(header)
+  }
+
+  setHeaderHeightVar()
+}
+// ======================================================
+const sliders = document.querySelectorAll('.slider')
+const sliderItemsContainerClassName = 'slider__content'
+const sliderBtnClassName = 'slider-btn'
+const sliderPageClassName = 'slider-page'
+
+for (const slider of sliders) {  
+  let activeIndex = 0
+  slider.addEventListener('click', (event) => {
+    const target = event.target
+    if (!target.classList.contains(sliderBtnClassName)
+        && !target.classList.contains(sliderPageClassName) ) return
+    const sliderPages = [...slider.querySelectorAll('.' + sliderPageClassName)]
+    const slidesContainer = slider.querySelector('.' + sliderItemsContainerClassName)
+    const slideWidth = window.getComputedStyle(slidesContainer).width
+
+
+    activeIndex = getNewActiveIndex(target, activeIndex, sliderPages.length)    
+
+    ;[...slider.querySelectorAll('._active')].forEach(item => item.classList.remove('_active') )
+    shiftSlides(slideWidth, slidesContainer, activeIndex)
+    sliderPages[activeIndex].classList.add('_active')
+  })
+}
+
+
+
+function shiftSlides(slideWidth, slidesContainer, activeIndex) {
+  slidesContainer.style.transform = `translateX(-${Number.parseFloat(slideWidth) * activeIndex}px)`
+}
+
+function getNewActiveIndex(target, activeIndex, itemsCount) {
+  if (target.classList.contains(sliderBtnClassName) ) {
+    return target.classList.contains('right') 
+    ? (activeIndex + 1) % itemsCount 
+    : activeIndex - 1 < 0
+      ? itemsCount - 1
+      : activeIndex - 1
+  }
+  return [...target.parentElement.children].indexOf(target) 
+    // a weak place: if there is a wrapper for paggination-item 
+    // (for example we use pictures as pagination-items)
+    // we will always have 0, so we should find paggination-container exactly
+
+}
+
+// ======================================================
+
 const URL = 'https://mocki.io/v1/a5814d24-4e22-49fc-96d1-0e9ae2952afc'
 
 async function fetchArticles(url) {
@@ -51,35 +115,36 @@ const model = {
   filterQueryDateTo: null,
 
   setData(prop, value) {
+
     this[prop] = value
-    updateDomPosts() 
+    updateDomArticles() 
   },
   // !TEST (works)
   // _add() {
   //   this.articles.push(this.articles[0])
-  //   updateDomPosts()
+  //   updateDomArticles()
   // },
   // _remove() {
   //   this.articles = this.articles.slice(17)
-  //   updateDomPosts()
+  //   updateDomArticles()
   //   setTimeout( () => this._add(), 1000)
   // },
 }
 
 
-function updateDomPosts() {
-  const postsContainer = document.querySelector('.posts')
-  const postsUpdated = getPosts(model.articles)
-  if (!postsUpdated) throw new Error('There are no new Posts!')
-  postsContainer.innerHTML = ''
-  postsUpdated.forEach((postElem) => postsContainer.append(postElem) )
+function updateDomArticles() {
+  const articlesContainer = document.querySelector('.articles__cards')
+  const articlesUpdated = getArticles(model.articles)
+  if (!articlesUpdated) throw new Error('There are no new Articles!')
+  articlesContainer.innerHTML = ''
+  articlesUpdated.forEach((articleCard) => articlesContainer.append(articleCard) )
 }
 
-function getPosts(articles) {
-  return articles.map((articleData) => getPost(articleData) )
+function getArticles(articles) {
+  return articles.map((articleData) => getArticle(articleData) )
 }
 
-function getPost(articleData) {
+function getArticle(articleData) {
   let {
     title,
     content: body,
@@ -90,32 +155,35 @@ function getPost(articleData) {
   body = getShortBody(body)
   date = parseDateFormated(date)
 
-  return createPost(title, body, author, date)
+  return createArticle(title, body, author, date)
 }
 
-function createPost(title, body, author, date) {
-  const postElem = document.createElement('div')
-  postElem.classList.add('post')
+function createArticle(title, body, author, date) {
+  const articleCard = document.createElement('div')
+  articleCard.classList.add('article-card')
 
   const dateElem = document.createElement('div')
   dateElem.innerHTML = date
-  dateElem.classList.add('post__date')
+  dateElem.classList.add('article-card__date')
   const titleElem = document.createElement('h3')
   titleElem.innerHTML = title
-  titleElem.classList.add('post__title')
+  titleElem.classList.add('article-card__title')
+  const titleLinkElem = document.createElement('h3')
+  titleLinkElem.innerHTML = titleElem
+  titleLinkElem.classList.add('link')
   const bodyElem = document.createElement('div')
   bodyElem.innerHTML = body
-  bodyElem.classList.add('post__body')
+  bodyElem.classList.add('article-card__body')
   const authorElem = document.createElement('button')
   authorElem.innerHTML = author
-  authorElem.classList.add('post__date')
+  authorElem.classList.add('article-card__date')
   authorElem.classList.add('btn-blue')
 
-  postElem.append(dateElem)
-  postElem.append(titleElem)
-  postElem.append(bodyElem)
-  postElem.append(authorElem)
-  return postElem
+  articleCard.append(dateElem)
+  articleCard.append(titleElem)
+  articleCard.append(bodyElem)
+  articleCard.append(authorElem)
+  return articleCard
 }
 
 
@@ -136,5 +204,7 @@ function createPost(title, body, author, date) {
 
 
 
-
-window.onload = fetchArticles.bind(null, URL)
+window.onload = function () {
+  fetchArticles(URL)
+  useHeaderHeight()
+}

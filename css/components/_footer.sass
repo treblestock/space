@@ -1,0 +1,88 @@
+.footer
+  &__section
+    background: $color-blue-dark
+    padding: leng_smooth(2.4rem, 4.8rem) 0
+    color: $color-white
+
+  &__container
+
+
+.footer
+  // display: flex
+  // flex-direction: row
+  // flex-wrap: wrap
+  // justify-content: space-between
+  // align-items: center
+  
+  // > * + *
+  //   flex: 0 1 max(20%, 50%)
+  //   margin-left: 2rem
+  //   margin-top: leng_smooth(3.2rem, 6.4rem)
+  --cols: 2
+  display: grid
+  grid-template-columns: repeat(var(--cols), auto)
+  justify-content: space-between  
+  align-content: space-between
+  grid-column-gap: 2rem
+  grid-row-gap: leng_smooth(3.2rem, 6.4rem)
+  > *
+    width: 100%
+  
+  // @media (max-width: 55rem)
+  //   --cols: 1
+    
+  &__logo
+
+  &__nav
+    height: 100%
+  &__links
+    --cols: 4
+    display: grid
+    grid-template-columns: repeat(var(--cols), auto)
+    justify-content: space-between  
+    align-content: space-between
+    grid-row-gap: 3rem
+    grid-column-gap: leng_smooth(4rem, 4.8rem)
+    > *
+      width: 100%
+    
+    @media (max-width: $md-m)
+      --cols: 2
+    @media (max-width: 55rem)
+      --cols: 4
+    
+      
+  
+      
+    
+
+    
+
+  &__link
+
+  &__copy
+    opacity: 0.8
+
+  &__socials
+    justify-content: end
+
+.container
+
+.logo
+
+.link
+
+.socials
+  display: flex
+  flex-direction: row
+  align-items: center
+
+  
+  > * + *
+    margin-left: 1.6rem
+  
+  &__item
+
+
+
+

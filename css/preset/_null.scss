@@ -25,6 +25,7 @@ font-size: 18px;
 -webkit-text-size-adjust: 100%;
 }
 input,button,textarea,select,option{background: none; font-family: inherit; font-size: inherit; line-height: inherit; color: inherit}
+button{cursor: pointer;}
 textarea, input{cursor: text;}
 input::-ms-clear{display: none;}
 input[type=checkbox], input[type=radio], input[type=range], button, select, option {cursor: pointer;}

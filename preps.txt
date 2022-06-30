@@ -2,19 +2,29 @@
 // figma
 + parse entities
 + get vars (colors, fonts, sizes)
-- make images fs
-- download icons and images
++ make images fs
++ download icons and images
 
 // sass
-- fz($rem-min, $rem-max)
++ fz($rem-min, $rem-max)
 
 // UI
 - text
-- links
-- logo
-- btns
++ links
++ logo
+- FIX: logo
++ sprite
++ icons
+- FIX: sprite (orgin blocked if sprite is separate file)
++ btns
 - custom form elements (select, input)
 
+// slicing
+- FIX: Intro img
+- FIX: Intro-slider logic
+- make article-cards' text 3 rows
+- make header Adaptive (icons on media)
+- make footer Adaptive
 
 // js
 + Model
