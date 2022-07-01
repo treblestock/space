@@ -50,11 +50,27 @@
     <div class="header__container container">
       <div class="header">
         <div class="header__logo">
-          <svg class="logo"><use xlink:href="#logo"></use></svg>
+          <a href="#">
+            <svg class="logo"><use xlink:href="#logo"></use></svg>
+          </a>
         </div>
         <div class="header__links">
-          <a href="#" class="header__link link">8 800 000 00 00</a>
-          <a href="#" class="header__link link">sales@logo.ru</a>
+          <a href="#" class="header__link link">
+            <span class="text">8 800 000 00 00</span>
+            <span class="icon">
+              <svg class="icon-decor">
+                <use xlink:href="#phone"></use>
+              </svg>
+            </span>
+          </a>
+          <a href="#" class="header__link link">
+            <span class="text">sales@logo.ru</span>
+            <span class="icon">
+              <svg class="icon-decor">
+                <use xlink:href="#mail"></use>
+              </svg>
+            </span>
+          </a>
         </div>
       </div>
     </div>
@@ -106,27 +122,40 @@
       <div class="articles__container container">
         <section class="articles">
           <!-- filters -->
-          <form class="articles__filters articles-filters form">
-            <div class="articles-filters__author-filter">
-              <div class="articles-filters__author-filter-wrapper">
-                <select name="author" id="" class="articles-filters__author-filter-select">
-                  <option value="" class="articles-filters__author-filter-option" disabled selected>Выбор автора</option>
-                </select>
-              </div>
-            </div>
+          <div class="articles__filters-toolbar">
+            <div class="articles__filters-container container">
+              <form class="articles__filters articles-filters form">
+                <div class="articles-filters__author-filter">
+                  <div class="articles-filters__author-filter-wrapper">
+                    <svg class="articles-filters__author-filter-icon icon-decor">
+                      <use xlink:href="#user"></use>
+                    </svg>
+                    <select name="author" id="author" class="articles-filters__author-filter-select">
+                      <option value="" class="articles-filters__author-filter-option" disabled selected>Выбор автора</option>
+                    </select>
+                    <div class="articles-filters__author-filter-arrow select-arrow"></div>
+                  </div>
+                </div>
+    
+                <div class="articles-filters__date-filter">
+                  <div class="articles-filters__date-filter-wrapper">
+                    <span class="custom-input">
+                      <input class="custom-input__input articles-filters__date-filter-input"
+                      type="date" name="dateFrom">
+                      <input type="text" id="date-from-placeholder" class="custom-input__placeholder" placeholder="от">
+                    </span>
+                    <span class="custom-input">
+                      <input class="custom-input__input articles-filters__date-filter-input"
+                      type="date" name="dateTo">
+                      <input type="text" id="date-to-placeholder" class="custom-input__placeholder" placeholder="до">
 
-            <div class="articles-filters__date-filter">
-              <div class="articles-filters__date-filter-wrapper">
-                <input class="articles-filters__date-filter-input"
-                type="date" name="dateFrom" placeholder="от">
-                -
-                <input class="articles-filters__date-filter-input"
-                type="date" name="dateTo" placeholder="До">
-              </div>
-              <!-- <div class="articles-filters__date-filter-warning"></div> -->
+                      <div class="input-dash"></div>
+                    </span>
+                  </div>
+                </div>
+              </form>
             </div>
-
-          </form>
+          </div>
           <!-- cards -->
           <div class="articles__cards grid"></div>
         </section>
@@ -138,7 +167,9 @@
     <div class="footer__container container">
       <div class="footer">
         <div class="footer__logo">
-          <svg class="logo"><use xlink:href="#logo"></use></svg>
+          <a href="#">
+            <svg class="logo logo_white"><use xlink:href="#logo"></use></svg>
+          </a>
         </div>
         <nav class="footer_nav">
           <ul class="footer__links">
@@ -201,6 +232,7 @@
 
 
   <!-- TODO: fix sprite -->
+  <!-- socilas -->
   <svg display="none">
     <symbol id='tg'  width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
       <path d="M8.38588 11.9883L8.13775 15.4783C8.49276 15.4783 8.64651 15.3258 8.83089 15.1427L10.4953 13.5521L13.9441 16.0777C14.5767 16.4302 15.0223 16.2446 15.1929 15.4958L17.4567 4.88837L17.4573 4.88775C17.658 3.95275 17.1192 3.58713 16.5029 3.8165L3.19638 8.91085C2.28823 9.26335 2.30198 9.7696 3.042 9.99897L6.44396 11.0571L14.346 6.11274C14.7179 5.86649 15.056 6.00274 14.7779 6.24899L8.38588 11.9883Z"/>
@@ -215,7 +247,7 @@
       <path d="M18.3894 5.58391C18.1878 4.8668 17.5967 4.3015 16.8471 4.1084C15.4776 3.75 9.9998 3.75 9.9998 3.75C9.9998 3.75 4.52218 3.75 3.15274 4.09482C2.41756 4.28771 1.81204 4.8669 1.61038 5.58391C1.25 6.8937 1.25 9.61004 1.25 9.61004C1.25 9.61004 1.25 12.3401 1.61038 13.6362C1.81226 14.3532 2.40314 14.9185 3.15285 15.1116C4.5366 15.4701 10 15.4701 10 15.4701C10 15.4701 15.4776 15.4701 16.8471 15.1253C17.5968 14.9323 18.1878 14.367 18.3897 13.65C18.7499 12.3401 18.7499 9.62383 18.7499 9.62383C18.7499 9.62383 18.7643 6.8937 18.3894 5.58391ZM8.25578 12.1195V7.10059L12.8109 9.61004L8.25578 12.1195Z"/>
     </symbol>
   </svg>
-
+  <!-- logo -->
   <svg display="none">
     <symbol id="logo" viewBox="0 0 121 30">
       <g class="logo__word">
@@ -232,7 +264,20 @@
       <circle cx="23.077" cy="23.0769" r="6.92305" class="logo__circles"/>
     </symbol>
   </svg>
-
-  
+  <!-- decor -->
+  <svg display="none">
+    <symbol id="phone" viewBox="0 0 22 22">
+      <path d="M19.1667 15.0126V17.4615C19.1677 17.6889 19.1211 17.9139 19.0301 18.1222C18.939 18.3305 18.8055 18.5175 18.638 18.6712C18.4705 18.8249 18.2728 18.9419 18.0575 19.0147C17.8421 19.0876 17.614 19.1146 17.3876 19.0942C14.8763 18.8212 12.4641 17.9629 10.3446 16.5881C8.37277 15.3348 6.70099 13.6626 5.44799 11.6903C4.06875 9.56068 3.21042 7.13608 2.94254 4.61288C2.92214 4.38714 2.94896 4.15963 3.02129 3.94483C3.09362 3.73003 3.20987 3.53265 3.36264 3.36525C3.51541 3.19786 3.70136 3.06411 3.90864 2.97253C4.11592 2.88095 4.33999 2.83354 4.56659 2.83333H7.01491C7.41097 2.82943 7.79494 2.96972 8.09524 3.22804C8.39555 3.48637 8.59169 3.8451 8.64713 4.23738C8.75046 5.02109 8.94211 5.79059 9.2184 6.5312C9.3282 6.82337 9.35197 7.14091 9.28688 7.44618C9.22179 7.75145 9.07057 8.03166 8.85115 8.25361L7.8147 9.29031C8.97647 11.334 10.6682 13.0261 12.7113 14.1882L13.7478 13.1514C13.9697 12.932 14.2498 12.7807 14.555 12.7156C14.8602 12.6505 15.1777 12.6743 15.4698 12.7841C16.2102 13.0605 16.9795 13.2522 17.763 13.3555C18.1595 13.4115 18.5215 13.6112 18.7803 13.9167C19.0392 14.2223 19.1767 14.6123 19.1667 15.0126Z" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    
+    <symbol id="mail" viewBox="0 0 22 22">
+      <path d="M3.66671 3.66669H18.3334C19.3417 3.66669 20.1667 4.49169 20.1667 5.50002V16.5C20.1667 17.5084 19.3417 18.3334 18.3334 18.3334H3.66671C2.65837 18.3334 1.83337 17.5084 1.83337 16.5V5.50002C1.83337 4.49169 2.65837 3.66669 3.66671 3.66669Z" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M20.1667 5.5L11 11.9167L1.83337 5.5" stroke="#888888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="user" viewBox="0 0 18 18">
+      <path d="M15 15.75V14.25C15 13.4544 14.6839 12.6913 14.1213 12.1287C13.5587 11.5661 12.7956 11.25 12 11.25H6C5.20435 11.25 4.44129 11.5661 3.87868 12.1287C3.31607 12.6913 3 13.4544 3 14.25V15.75" stroke="#888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M9 8.25C10.6569 8.25 12 6.90685 12 5.25C12 3.59315 10.6569 2.25 9 2.25C7.34315 2.25 6 3.59315 6 5.25C6 6.90685 7.34315 8.25 9 8.25Z" stroke="#888888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
 </body>
 </html>

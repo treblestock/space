@@ -12,12 +12,14 @@
     
     height: 100%
     width: 100%
-    margin-left: auto
     img
-      width: 100%
-      height: 100%
+      position: absolute
+      right: 0
+      bottom: 0
+
+      width: 50%
       object-fit: cover
-      object-position: right
+      
     
 
   &__container
@@ -45,10 +47,10 @@
   
   &__viewport
     overflow: hidden
+    max-width: min(60rem, 100%)
 
   &__content
     height: 100%
-    max-width: 60rem
 
     display: flex
     > *

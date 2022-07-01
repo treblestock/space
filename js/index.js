@@ -58,6 +58,22 @@ function useHeaderHeight() {
   setHeaderHeightVar()
 }
 // ======================================================
+function useArticleFiltersSticky() {
+  const articleFilters = document.querySelector('.articles__filters-toolbar')
+  const filtersHeight = getComputedStyle(articleFilters).height
+  document.documentElement.style.setProperty('--filter-height', filtersHeight)
+  window.onscroll = () => {
+    const scrollTop = document.documentElement.scrollTop
+    const offsetHeight = document.documentElement.offsetHeight
+    const headerHeight = parseInt(document.documentElement.style.getPropertyValue('--header-height'))
+    if (scrollTop > offsetHeight - headerHeight) {
+      articleFilters.classList.add('articles__filters-toolbar_fixed')
+    } else {
+      articleFilters.classList.remove('articles__filters-toolbar_fixed')
+    }
+  }
+}
+// ======================================================
 const sliders = document.querySelectorAll('.slider')
 const sliderItemsContainerClassName = 'slider__content'
 const sliderBtnClassName = 'slider__btn'
@@ -112,11 +128,13 @@ async function fetchArticles(url) {
 const model = {
   articles: [],
   get articlesFiltered() {
-    return this.articles.filter(isPassedFilters)
+    return this.filterQueries.author === 'Все' 
+      ? this.articles 
+      : this.articles.filter(isPassedFilters)
   },
 
   get authorsList() {
-    const authors = [...this.articles.reduce((authors, article) => authors.add(article.author), new Set())]
+    const authors = [...this.articles.reduce((authors, article) => authors.add(article.author), new Set(['Все']) )]
     return authors.filter(author => author) // defined only
   },
 
@@ -148,10 +166,13 @@ function onFilterChange(event) {
   const value = target.name.includes('date')
     ? jsDateFromInput(target.value) : target.options[target.selectedIndex].value
 
-  model.filterQueries[target.name] = value 
+  model.filterQueries[target.name] = value
+  updatePlaceholder(target)
   updateDomFilterAuthor()
   updateDomArticles()
 }
+
+
 
 
 
@@ -163,6 +184,12 @@ function isPassedFilters(article) {
   return true
 }
 
+function updatePlaceholder(input) {
+  if (input.tagName === "SELECT") return
+  const placeholder = input.nextElementSibling
+  const formatedValue = input.value.split('-').reverse().join('.')
+  placeholder.value = formatedValue
+}
 
 function updateDomFilterAuthor() {
   const optionElems = model.authorsList.map((author) => createOptionElement(author) )
@@ -204,7 +231,7 @@ function getArticleElem(articleData) {
 }
 
 function createArticleElem(title, body, author, date) {
-  const articleCard = document.createElement('div')
+  const articleCard = document.createElement('article')
   articleCard.classList.add('article-card')
 
   const dateElem = document.createElement('div')
@@ -213,19 +240,20 @@ function createArticleElem(title, body, author, date) {
   const titleElem = document.createElement('h3')
   titleElem.innerHTML = title
   titleElem.classList.add('article-card__title')
-  const titleLinkElem = document.createElement('h3')
-  titleLinkElem.innerHTML = titleElem
+  const titleLinkElem = document.createElement('a')
+  titleLinkElem.href = '#'
+  titleLinkElem.append(titleElem)
   titleLinkElem.classList.add('link')
   const bodyElem = document.createElement('div')
   bodyElem.innerHTML = body
   bodyElem.classList.add('article-card__body')
   const authorElem = document.createElement('button')
   authorElem.innerHTML = author
-  authorElem.classList.add('article-card__date')
+  authorElem.classList.add('article-card__author')
   authorElem.classList.add('btn-blue')
 
   articleCard.append(dateElem)
-  articleCard.append(titleElem)
+  articleCard.append(titleLinkElem)
   articleCard.append(bodyElem)
   articleCard.append(authorElem)
   return articleCard
@@ -252,4 +280,5 @@ function createArticleElem(title, body, author, date) {
 window.onload = function () {
   fetchArticles(URL)
   useHeaderHeight()
+  useArticleFiltersSticky()
 }
