@@ -2,6 +2,7 @@ import { MONTHS, URL } from "./vars.js"
 import { jsDateFromInput, parseDateFormated, getShortBody } from './helpers.js'
 import { useSetDynamicHeaderHeight } from "./useSetDynamicHeaderHeight.js"
 import { useArticleFiltersSticky } from "./useArticleFiltersSticky.js"
+import { useSliderLogic } from "./useSliderLogic.js"
 
 
 export async function fetchArticles(url) {
@@ -142,6 +143,7 @@ function createArticleElem(title, body, author, date) {
 
 window.onload = function () {
   fetchArticles(URL)
+  useSliderLogic()
   useSetDynamicHeaderHeight()
   useArticleFiltersSticky()
 }
