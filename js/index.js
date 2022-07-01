@@ -1,4 +1,8 @@
-// import {parseDateFormated} from './helpers.js'
+/*
+  Поскольку, проект не использует никаких библеотек
+
+
+*/ 
 const MONTHS = [
   'Январь',
   'Февраль',
