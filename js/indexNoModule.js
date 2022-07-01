@@ -1,10 +1,124 @@
-import { MONTHS, URL } from "./vars.js"
-import { jsDateFromInput, parseDateFormated, getShortBody } from './helpers.js'
-import { useSetDynamicHeaderHeight } from "./useSetDynamicHeaderHeight.js"
-import { useArticleFiltersSticky } from "./useArticleFiltersSticky.js"
+const MONTHS = [
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь',
+]
+
+function jsDateFromInput(dateStr) {
+  const dateArgs = dateStr.split('-')
+  dateArgs[1]--
+  return new Date(...dateArgs)
+}
+
+function parseDateFormated(dateStr) {
+  const dateJS = new Date(dateStr)
+
+  const date = dateJS.getDate()
+  const month = MONTHS[dateJS.getMonth()]
+  const year = dateJS.getFullYear()
+
+  return [date, month, year].join(' ')
+}
+
+function getShortBody(bodyText) {
+  const isTooLongText = bodyText.match('...')
+  if (isTooLongText) {
+    let firstPart = bodyText.split('[+')[0]
+    return typeof firstPart === 'string' ? firstPart : firstPart[0]
+  }
+  return bodyText
+}
+
+// ======================================================
+
+function useSetDynamicHeaderHeight() {
+  const resizeObserver = new ResizeObserver((entries) => {
+    const target = entries[0].target
+    const headerHeight = getComputedStyle(target).height
+    document.documentElement.style.setProperty('--header-height', headerHeight)
+  })
+  
+  function setHeaderHeightVar() {
+    const header = document.querySelector('.header__section')
+    const headerHeight = getComputedStyle(header).height
+    document.documentElement.style.setProperty('--header-height', headerHeight)
+    resizeObserver.observe(header)
+  }
+
+  setHeaderHeightVar()
+}
+// ======================================================
+function useArticleFiltersSticky() {
+  const articleFilters = document.querySelector('.articles__filters-toolbar')
+  const filtersHeight = getComputedStyle(articleFilters).height
+  document.documentElement.style.setProperty('--filter-height', filtersHeight)
+  window.onscroll = () => {
+    const scrollTop = document.documentElement.scrollTop
+    const offsetHeight = document.documentElement.offsetHeight
+    const headerHeight = parseInt(document.documentElement.style.getPropertyValue('--header-height'))
+    if (scrollTop > offsetHeight - headerHeight) {
+      articleFilters.classList.add('articles__filters-toolbar_fixed')
+    } else {
+      articleFilters.classList.remove('articles__filters-toolbar_fixed')
+    }
+  }
+}
+// ======================================================
+const sliders = document.querySelectorAll('.slider')
+const sliderItemsContainerClassName = 'slider__content'
+const sliderBtnClassName = 'slider__btn'
+const sliderPageClassName = 'slider__page'
+
+for (const slider of sliders) {  
+  let activeIndex = 0
+  slider.addEventListener('click', (event) => {
+    const target = event.target
+    if (!target.classList.contains(sliderBtnClassName)
+        && !target.classList.contains(sliderPageClassName) ) return
+    const sliderPages = [...slider.querySelectorAll('.' + sliderPageClassName)]
+    const slidesContainer = slider.querySelector('.' + sliderItemsContainerClassName)
+    const slideWidth = window.getComputedStyle(slidesContainer).width
 
 
-export async function fetchArticles(url) {
+    activeIndex = getNewActiveIndex(target, activeIndex, sliderPages.length)    
+
+    ;[...slider.querySelectorAll('._active')].forEach(item => item.classList.remove('_active') )
+    shiftSlides(slideWidth, slidesContainer, activeIndex)
+    sliderPages[activeIndex].classList.add('_active')
+  })
+}
+
+
+
+function shiftSlides(slideWidth, slidesContainer, activeIndex) {
+  slidesContainer.style.transform = `translateX(-${Number.parseFloat(slideWidth) * activeIndex}px)`
+}
+
+function getNewActiveIndex(target, activeIndex, itemsCount) {
+  if (target.classList.contains(sliderBtnClassName) ) {
+    return target.classList.contains('right') 
+    ? (activeIndex + 1) % itemsCount 
+    : activeIndex - 1 < 0
+      ? itemsCount - 1
+      : activeIndex - 1
+  }
+  return [...target.parentElement.children].indexOf(target)
+}
+
+// ======================================================
+
+const URL = 'https://mocki.io/v1/a5814d24-4e22-49fc-96d1-0e9ae2952afc'
+
+async function fetchArticles(url) {
   const res = await fetch(url).then(r => r.json() )
   const articles = res.articles
   model.setData('articles', articles)
@@ -39,6 +153,8 @@ const model = {
 // dom authorFilter
 const formElems = document.querySelector('.form').elements
 const authorSelect = formElems.author
+const dateFromInput = formElems.dateFrom
+const dateToInput = formElems.dateTo
 
 for (const formElem of formElems) {
   formElem.addEventListener('change', onFilterChange)
@@ -54,6 +170,9 @@ function onFilterChange(event) {
   updateDomFilterAuthor()
   updateDomArticles()
 }
+
+
+
 
 
 function isPassedFilters(article) {
