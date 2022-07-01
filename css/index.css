@@ -474,7 +474,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
   position: fixed;
   top: var(--header-height);
   left: 0;
-  padding: 2rem 1.6rem clamp(3.2rem, 3.2rem + 0.0251141553 * (100vw - 320px), 5.4rem);
+  padding: 2rem 1.6rem clamp(3.2rem, 3.2rem + 0.0091324201 * (100vw - 320px), 4rem);
   width: 100%;
 }
 .articles__filters-toolbar_fixed + * {

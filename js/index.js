@@ -234,7 +234,7 @@ function createArticleElem(title, body, author, date) {
   const articleCard = document.createElement('article')
   articleCard.classList.add('article-card')
 
-  const dateElem = document.createElement('div')
+  const dateElem = document.createElement('time')
   dateElem.innerHTML = date
   dateElem.classList.add('article-card__date')
   const titleElem = document.createElement('h3')
@@ -282,3 +282,4 @@ window.onload = function () {
   useHeaderHeight()
   useArticleFiltersSticky()
 }
+
