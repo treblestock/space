@@ -41,7 +41,7 @@ function getShortBody(bodyText) {
 
 // ======================================================
 
-function useHeaderHeight() {
+function useSetDynamicHeaderHeight() {
   const resizeObserver = new ResizeObserver((entries) => {
     const target = entries[0].target
     const headerHeight = getComputedStyle(target).height
@@ -248,7 +248,7 @@ function createArticleElem(title, body, author, date) {
   bodyElem.innerHTML = body
   bodyElem.classList.add('article-card__body')
   const authorElem = document.createElement('button')
-  authorElem.innerHTML = author
+  authorElem.innerHTML = author || 'подробнее'
   authorElem.classList.add('article-card__author')
   authorElem.classList.add('btn-blue')
 
@@ -260,26 +260,9 @@ function createArticleElem(title, body, author, date) {
 }
 
 
-/*
-  Model
-  Model-API (setData)
-
-  View
-  updateView(Model, DOM)
-
-  Model-View connection (model.onUpdate = updateView() )
-
-
-  filters(Model)
-  ParseViewFilterQueries(DOM.events)
-  
-*/ 
-
-
-
 window.onload = function () {
   fetchArticles(URL)
-  useHeaderHeight()
+  useSetDynamicHeaderHeight()
   useArticleFiltersSticky()
 }
 

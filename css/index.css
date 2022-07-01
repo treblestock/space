@@ -206,6 +206,10 @@ footer.footer > * {
   height: 2rem;
   fill: rgb(255, 255, 255);
 }
+.social-icon > * {
+  width: 2rem;
+  height: 2rem;
+}
 .social-icon:hover {
   fill: #0050EF;
 }
@@ -214,6 +218,7 @@ footer.footer > * {
   width: 2rem;
   height: 2rem;
   fill: none;
+  stroke: #888888;
 }
 .icon-decor:hover {
   fill: #0050EF;
@@ -404,6 +409,11 @@ footer.footer > * {
 }
 .article-card__body {
   flex: 1 1 auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  max-height: calc(clamp(1.4rem, 1.4rem + 0.002283105 * (100vw - 320px), 1.6rem) * 1.5 * 3);
+  overflow: hidden;
 }
 .article-card__author {
   margin-top: clamp(2rem, 2rem + 0.00456621 * (100vw - 320px), 2.4rem);
